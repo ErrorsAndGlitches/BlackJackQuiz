@@ -35,3 +35,28 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
 }
+
+task build_db() {
+}
+
+task create_db(type: Exec) {
+    workingDir '../makedb/'
+    commandLine 'ruby22', 'makedb.rb'
+}
+
+task mv_db(type: Exec) {
+    workingDir '../makedb/'
+    commandLine 'mv', 'blackjack.sql', '../BlackJackQuiz/src/main/res/raw/blackjack.sql'
+}
+
+task clean_db(type:Exec) {
+    commandLine 'rm', '-f', 'blackjack.sql', 'src/main/res/raw/blackjack.sql'
+}
+
+assembleDebug.dependsOn build_db
+assembleRelease.dependsOn build_db
+
+build_db.dependsOn mv_db
+mv_db.dependsOn create_db
+
+clean.dependsOn clean_db
