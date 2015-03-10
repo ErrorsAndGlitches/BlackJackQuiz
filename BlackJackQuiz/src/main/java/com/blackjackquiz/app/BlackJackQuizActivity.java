@@ -8,11 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import android.widget.TextView;
+import com.blackjackquiz.app.deck.Deck;
 
 public class BlackJackQuizActivity extends Activity
 {
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -21,11 +22,10 @@ public class BlackJackQuizActivity extends Activity
         if (savedInstanceState == null)
         {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new BlackJackQuizFragment())
                     .commit();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -43,7 +43,7 @@ public class BlackJackQuizActivity extends Activity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        // noinspection SimplifiableIfStatement
         if (id == R.id.action_settings)
         {
             return true;
@@ -52,22 +52,41 @@ public class BlackJackQuizActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment
+    public static class BlackJackQuizFragment extends Fragment
     {
-
-        public PlaceholderFragment()
-        {
-        }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState)
         {
             View rootView = inflater.inflate(R.layout.fragment_black_jack_quiz, container, false);
+
+            m_randomCardTextView = (TextView) rootView.findViewById(R.id.random_card_text);
+            Button nextCardButton = (Button) rootView.findViewById(R.id.next_random_card_button);
+            nextCardButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    newRandomCard();
+                }
+            });
+
             return rootView;
         }
+
+        private void newRandomCard()
+        {
+            final Deck.Card card = Deck.getRandomCard();
+            getActivity().runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    m_randomCardTextView.setText(String.format("(%s, %s)", card.suite, card.value));
+                }
+            });
+        }
+
+        private TextView m_randomCardTextView;
     }
 }
