@@ -26,7 +26,7 @@ module ActionData
                     .multi_map(11,       [:dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl])
                     .multi_map(12,       [:hit, :hit, :std, :std, :std, :hit, :hit, :hit, :hit, :hit, :hit, :hit, :hit])
                     .multi_map((13..16), [:std, :std, :std, :std, :std, :hit, :hit, :hit, :hit, :hit, :hit, :hit, :hit])
-                    .multi_map((17..18), [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std])
+                    .multi_map((17..20), [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std])
                     .map
 
     SOFT_DATA = MapBuilder.new(Hash.new({}))
@@ -35,7 +35,7 @@ module ActionData
                     .multi_map(17      , [:hit, :dbl, :dbl, :dbl, :dbl, :hit, :hit, :hit, :hit, :hit, :hit, :hit, :hit])
                     .multi_map(18      , [:dbl, :dbl, :dbl, :dbl, :dbl, :std, :std, :hit, :hit, :hit, :hit, :hit, :hit])
                     .multi_map(19      , [:std, :std, :std, :std, :dbl, :std, :std, :std, :std, :std, :std, :std, :std])
-                    .multi_map(20      , [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std])
+                    .multi_map(21      , [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std])
                     .map
 
     SPLIT_DATA = MapBuilder.new(Hash.new({}))
@@ -46,7 +46,7 @@ module ActionData
                      .multi_map(7       , [:spl, :spl, :spl, :spl, :spl, :spl, :hit, :hit, :hit, :hit, :hit, :hit, :hit])
                      .multi_map(8       , [:spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl])
                      .multi_map(9       , [:spl, :spl, :spl, :spl, :spl, :std, :spl, :spl, :std, :std, :std, :std, :std])
-                     .multi_map((10..13), [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std]) # 10 is same as hard 20
-                     .multi_map(14      , [:spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl])
+                     .multi_map(10      , [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std]) # 10 is same as hard 20
+                     .multi_map(11      , [:spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl, :spl])
                      .map
 end

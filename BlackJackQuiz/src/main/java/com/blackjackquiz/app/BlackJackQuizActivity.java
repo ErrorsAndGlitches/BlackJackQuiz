@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import com.blackjackquiz.app.deck.Deck;
+import com.blackjackquiz.app.deck.Deck.Card;
+import com.blackjackquiz.app.deck.Field;
+import com.blackjackquiz.app.solution.SolutionManual;
 
 public class BlackJackQuizActivity extends Activity
 {
@@ -25,6 +27,8 @@ public class BlackJackQuizActivity extends Activity
                     .add(R.id.container, new BlackJackQuizFragment())
                     .commit();
         }
+
+        m_solutionManual = new SolutionManual(this);
     }
 
     @Override
@@ -54,39 +58,92 @@ public class BlackJackQuizActivity extends Activity
 
     public static class BlackJackQuizFragment extends Fragment
     {
+        private static final String DEALER_CARD_PREFIX     = "Dealer  : ";
+        private static final String PLAYER_ONE_CARD_PREFIX = "Card One: ";
+        private static final String PLAYER_TWO_CARD_PREFIX = "Card Two: ";
+        public static final String SOLUTION_HINT_TEXT = "Solution";
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState)
         {
             View rootView = inflater.inflate(R.layout.fragment_black_jack_quiz, container, false);
 
-            m_randomCardTextView = (TextView) rootView.findViewById(R.id.random_card_text);
-            Button nextCardButton = (Button) rootView.findViewById(R.id.next_random_card_button);
+            m_dealerCardText = (TextView) rootView.findViewById(R.id.dealer_card);
+            m_playerCardOneText = (TextView) rootView.findViewById(R.id.player_card_one);
+            m_playerCardTwoText = (TextView) rootView.findViewById(R.id.player_card_two);
+            m_solutionText = (TextView) rootView.findViewById(R.id.solution_text);
+
+            Button nextCardButton = (Button) rootView.findViewById(R.id.next_field_button);
+            setupNextFieldButton(nextCardButton);
+
+            Button showSolutionButton = (Button) rootView.findViewById(R.id.show_solution_button);
+            setupShowSolutionButton(showSolutionButton);
+
+            return rootView;
+        }
+
+        @Override
+        public void onStart()
+        {
+            super.onStart();
+            newField();
+        }
+
+        private void setupShowSolutionButton(Button showSolutionButton)
+        {
+            showSolutionButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    SolutionManual solMan = ((BlackJackQuizActivity) getActivity()).m_solutionManual;
+                    SolutionManual.BlackJackAction action = solMan.getSolutionForCards(m_field.dealerCard,
+                                                                                       m_field.playerCardOne,
+                                                                                       m_field.playerCardTwo);
+                    m_solutionText.setText(action.name());
+                }
+            });
+        }
+
+        private void setupNextFieldButton(Button nextCardButton)
+        {
             nextCardButton.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v)
                 {
-                    newRandomCard();
+                    newField();
                 }
             });
-
-            return rootView;
         }
 
-        private void newRandomCard()
+        private void newField()
         {
-            final Deck.Card card = Deck.getRandomCard();
-            getActivity().runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    m_randomCardTextView.setText(String.format("(%s, %s)", card.suite, card.value));
-                }
-            });
+            m_field = Field.newField();
+            setTextForCard(DEALER_CARD_PREFIX, m_dealerCardText, m_field.dealerCard);
+            setTextForCard(PLAYER_ONE_CARD_PREFIX, m_playerCardOneText, m_field.playerCardOne);
+            setTextForCard(PLAYER_TWO_CARD_PREFIX, m_playerCardTwoText, m_field.playerCardTwo);
+            resetSolutionText();
         }
 
-        private TextView m_randomCardTextView;
+        private static void setTextForCard(String prefix, TextView textView, Card card)
+        {
+            textView.setText(String.format("%s(%s, %s)", prefix, card.suite, card.rank));
+        }
+
+        private void resetSolutionText()
+        {
+            m_solutionText.setText(null);
+            m_solutionText.setHint(SOLUTION_HINT_TEXT);
+        }
+
+        private TextView m_dealerCardText;
+        private TextView m_playerCardOneText;
+        private TextView m_playerCardTwoText;
+        private TextView m_solutionText;
+        private Field    m_field;
     }
+
+    private SolutionManual m_solutionManual;
 }

@@ -12,7 +12,7 @@ public class Deck
         Clubs
     }
 
-    public static enum CardValue
+    public static enum Rank
     {
         Two(2),
         Three(3),
@@ -23,12 +23,12 @@ public class Deck
         Eight(8),
         Nine(9),
         Ten(10),
-        Jack(11),
-        Queen(12),
-        King(13),
-        Ace(14);
+        Jack(10),
+        Queen(10),
+        King(10),
+        Ace(11);
 
-        CardValue(int value)
+        Rank(int value)
         {
             this.value = value;
         }
@@ -38,26 +38,58 @@ public class Deck
 
     public static class Card
     {
-        Card(Suite suite, CardValue value)
+        Card(Suite suite, Rank rank)
         {
             this.suite = suite;
-            this.value = value;
+            this.rank = rank;
         }
 
-        public final Suite     suite;
-        public final CardValue value;
+        public boolean isAce()
+        {
+            return rank == Rank.Ace;
+        }
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+
+            if (!(o instanceof Card))
+            {
+                return false;
+            }
+
+            Card card = (Card) o;
+            return suite == card.suite && rank == card.rank;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            int result = suite.hashCode();
+            result = 31 * result + rank.hashCode();
+            return result;
+        }
+
+        public final Suite suite;
+        public final Rank  rank;
     }
 
     private static final Random random          = new Random(System.currentTimeMillis());
-    private static final int    NUM_CARD_VALUES = CardValue.values().length;
+    private static final int    NUM_CARD_VALUES = Rank.values().length;
     private static final int    NUM_SUITES      = Suite.values().length;
 
-    private Deck() {}
+    private Deck()
+    {
+    }
 
-    public static Card getRandomCard()
+    static Card getRandomCard()
     {
         Suite suite = Suite.values()[random.nextInt(NUM_SUITES)];
-        CardValue value = CardValue.values()[random.nextInt(NUM_CARD_VALUES)];
+        Rank value = Rank.values()[random.nextInt(NUM_CARD_VALUES)];
         return new Card(suite, value);
     }
 }

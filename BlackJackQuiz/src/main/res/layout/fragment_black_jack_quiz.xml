@@ -9,26 +9,47 @@
               tools:context=".BlackJackQuizActivity$PlaceholderFragment"
               android:orientation="vertical">
 
-    <LinearLayout
+    <Button
+            android:id="@+id/next_field_button"
+            android:text="Next Field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/dealer_card"
+            android:paddingLeft="10dp"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/player_card_one"
+            android:paddingLeft="10dp"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/player_card_two"
+            android:paddingLeft="10dp"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/show_solution_button"
+            android:text="Show Solution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/solution_text"
+            android:paddingLeft="10dp"
+            android:textSize="20sp"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <Button
-                android:id="@+id/next_random_card_button"
-                android:text="Next Card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <TextView
-                android:id="@+id/random_card_text"
-                android:paddingLeft="10dp"
-                android:textSize="20sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Random Card"/>
-
-    </LinearLayout>
+            android:hint="Solution"/>
 
     <LinearLayout
             android:orientation="vertical"
@@ -43,17 +64,17 @@
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/player_card_one"/>
+                    android:id="@+id/dealer_card_img"/>
 
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/player_card_two"/>
+                    android:id="@+id/player_card_one_img"/>
 
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/dealer_card"/>
+                    android:id="@+id/player_card_two_img"/>
 
         </LinearLayout>
 
