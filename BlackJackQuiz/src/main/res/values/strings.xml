@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">Black Jack Quiz</string>
-    <string name="action_settings">Settings</string>
+    <string name="black_jack_quiz_option">Black Jack Quiz</string>
+    <string name="solution_table_option">Solution Table</string>
 
     <color name="black">#000000</color>
 

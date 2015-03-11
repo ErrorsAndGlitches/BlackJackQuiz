@@ -15,12 +15,13 @@ public class BlackJackQuizActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_black_jack_quiz);
-        if (savedInstanceState == null)
-        {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new BlackJackQuizFragment())
-                    .commit();
-        }
+
+        m_blackJackQuizFragment = new BlackJackQuizFragment();
+        m_solutionTableFragment = new SolutionTableFragment();
+
+        getFragmentManager().beginTransaction()
+                .add(R.id.container, m_blackJackQuizFragment)
+                .commit();
 
         // this is so the initialization code is kicked off
         SolutionManual.getInstance(this);
@@ -44,11 +45,25 @@ public class BlackJackQuizActivity extends Activity
         int id = item.getItemId();
 
         // noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
+        switch (id)
         {
+        case R.id.black_jack_quiz:
+            getFragmentManager().beginTransaction()
+                    .show(m_blackJackQuizFragment)
+                    .remove(m_solutionTableFragment)
+                    .commit();
+            return true;
+        case R.id.solution_table:
+            getFragmentManager().beginTransaction()
+                    .hide(m_blackJackQuizFragment)
+                    .add(R.id.container, m_solutionTableFragment)
+                    .commit();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private BlackJackQuizFragment m_blackJackQuizFragment;
+    private SolutionTableFragment m_solutionTableFragment;
 }
