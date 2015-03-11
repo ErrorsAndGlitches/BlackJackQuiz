@@ -51,85 +51,100 @@
             android:layout_height="wrap_content"
             android:hint="Solution"/>
 
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/dealer_card_img"/>
+
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
             android:layout_height="wrap_content">
 
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/dealer_card_img"/>
-
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/player_card_one_img"/>
-
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/player_card_two_img"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
+        <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
+                android:id="@+id/player_card_one_img"/>
 
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:background="@color/red"
-                    android:text="Hit"
-                    android:id="@+id/hit_button"/>
+        <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"/>
 
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:background="@color/grey"
-                    android:text="Dbl"
-                    android:id="@+id/double_button"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/player_card_two_img"/>
 
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:background="@color/yellow"
-                    android:text="Std"
-                    android:id="@+id/stand_button"/>
+    </LinearLayout>
 
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:background="@color/green"
-                    android:text="Spl"
-                    android:id="@+id/split_button"/>
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
 
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:background="@color/cyan"
-                    android:text="DaS"
-                    android:id="@+id/doulbe_after_split_button"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
 
-        </LinearLayout>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:background="@color/red"
+                android:text="Hit"
+                android:id="@+id/hit_button"/>
+
+        <Space android:layout_width="5dp" android:layout_height="wrap_content"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:background="@color/grey"
+                android:text="Dbl"
+                android:id="@+id/double_button"/>
+
+        <Space android:layout_width="5dp" android:layout_height="wrap_content"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:background="@color/yellow"
+                android:text="Std"
+                android:id="@+id/stand_button"/>
+
+        <Space android:layout_width="5dp" android:layout_height="wrap_content"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:background="@color/green"
+                android:text="Spl"
+                android:id="@+id/split_button"/>
+
+        <Space android:layout_width="5dp" android:layout_height="wrap_content"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:background="@color/cyan"
+                android:text="DaS"
+                android:id="@+id/doulbe_after_split_button"/>
 
     </LinearLayout>
 

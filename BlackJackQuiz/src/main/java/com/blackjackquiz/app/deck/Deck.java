@@ -4,16 +4,21 @@ import java.util.Random;
 
 public class Deck
 {
+    /*
+     * The ordering of the Suites and Ranks is IMPORTANT!! It must match the ordering of the cards image. While the
+     * ordering could be hard coded in the CardImageLoader, this is just easier.
+     */
     public static enum Suite
     {
+        Clubs,
+        Spades,
         Hearts,
-        Diamonds,
-        Spaces,
-        Clubs
+        Diamonds
     }
 
     public static enum Rank
     {
+        Ace(11),
         Two(2),
         Three(3),
         Four(4),
@@ -25,8 +30,7 @@ public class Deck
         Ten(10),
         Jack(10),
         Queen(10),
-        King(10),
-        Ace(11);
+        King(10);
 
         Rank(int value)
         {

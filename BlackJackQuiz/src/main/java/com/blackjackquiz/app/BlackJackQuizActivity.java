@@ -9,7 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.blackjackquiz.app.deck.CardImageLoader;
 import com.blackjackquiz.app.deck.Deck.Card;
 import com.blackjackquiz.app.deck.Field;
 import com.blackjackquiz.app.solution.SolutionManual;
@@ -29,6 +31,7 @@ public class BlackJackQuizActivity extends Activity
         }
 
         m_solutionManual = new SolutionManual(this);
+        CardImageLoader.getInstance(this); // this is so the image loading is kicked off
     }
 
     @Override
@@ -61,7 +64,7 @@ public class BlackJackQuizActivity extends Activity
         private static final String DEALER_CARD_PREFIX     = "Dealer  : ";
         private static final String PLAYER_ONE_CARD_PREFIX = "Card One: ";
         private static final String PLAYER_TWO_CARD_PREFIX = "Card Two: ";
-        public static final String SOLUTION_HINT_TEXT = "Solution";
+        public static final  String SOLUTION_HINT_TEXT     = "Solution";
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,6 +75,11 @@ public class BlackJackQuizActivity extends Activity
             m_dealerCardText = (TextView) rootView.findViewById(R.id.dealer_card);
             m_playerCardOneText = (TextView) rootView.findViewById(R.id.player_card_one);
             m_playerCardTwoText = (TextView) rootView.findViewById(R.id.player_card_two);
+
+            m_dealerCardImage = (ImageView) rootView.findViewById(R.id.dealer_card_img);
+            m_playerCardOneImage = (ImageView) rootView.findViewById(R.id.player_card_one_img);
+            m_playerCardTwoImage = (ImageView) rootView.findViewById(R.id.player_card_two_img);
+
             m_solutionText = (TextView) rootView.findViewById(R.id.solution_text);
 
             Button nextCardButton = (Button) rootView.findViewById(R.id.next_field_button);
@@ -121,10 +129,24 @@ public class BlackJackQuizActivity extends Activity
         private void newField()
         {
             m_field = Field.newField();
+            resetText();
+            resetImages();
+        }
+
+        private void resetText()
+        {
             setTextForCard(DEALER_CARD_PREFIX, m_dealerCardText, m_field.dealerCard);
             setTextForCard(PLAYER_ONE_CARD_PREFIX, m_playerCardOneText, m_field.playerCardOne);
             setTextForCard(PLAYER_TWO_CARD_PREFIX, m_playerCardTwoText, m_field.playerCardTwo);
             resetSolutionText();
+        }
+
+        private void resetImages()
+        {
+            CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
+            m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard));
+            m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne));
+            m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo));
         }
 
         private static void setTextForCard(String prefix, TextView textView, Card card)
@@ -141,9 +163,14 @@ public class BlackJackQuizActivity extends Activity
         private TextView m_dealerCardText;
         private TextView m_playerCardOneText;
         private TextView m_playerCardTwoText;
+
+        private ImageView m_dealerCardImage;
+        private ImageView m_playerCardOneImage;
+        private ImageView m_playerCardTwoImage;
+
         private TextView m_solutionText;
         private Field    m_field;
     }
 
-    private SolutionManual m_solutionManual;
+    private SolutionManual  m_solutionManual;
 }
