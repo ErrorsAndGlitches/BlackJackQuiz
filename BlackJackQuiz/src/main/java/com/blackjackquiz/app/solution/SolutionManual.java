@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class SolutionManual
 {
+    private static volatile SolutionManual s_solutionManual;
+
     // See makedb/makedb.rb for the MOVES_MAP mapping values
     public enum BlackJackAction
     {
@@ -50,7 +52,17 @@ public class SolutionManual
         }
     }
 
-    public SolutionManual(Context context)
+    public synchronized static SolutionManual getInstance(Context context)
+    {
+        if (s_solutionManual == null)
+        {
+            s_solutionManual = new SolutionManual(context);
+        }
+
+        return s_solutionManual;
+    }
+
+    private SolutionManual(Context context)
     {
         m_db = new Database(context);
     }
