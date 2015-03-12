@@ -94,7 +94,7 @@ public class SolutionManual
 
     private static HandType getHandTypeFromCards(Card cardOne, Card cardTwo)
     {
-        if (cardOne.equals(cardTwo))
+        if (cardOne.rank.equals(cardTwo.rank))
         {
             return HandType.Split;
         }
