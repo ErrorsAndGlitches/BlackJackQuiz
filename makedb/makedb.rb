@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby22
+#!/usr/bin/env ruby
 
 require_relative 'action_data'
 %w{sqlite3 fileutils}.each { |mod| require mod }
