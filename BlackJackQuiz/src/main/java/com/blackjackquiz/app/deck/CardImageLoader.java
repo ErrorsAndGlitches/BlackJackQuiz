@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import com.blackjackquiz.app.R;
 import com.blackjackquiz.app.deck.Deck.Card;
-import com.blackjackquiz.app.deck.Deck.Rank;
 import com.blackjackquiz.app.deck.Deck.Suite;
 import com.blackjackquiz.app.logger.Logger;
 
@@ -77,9 +76,8 @@ public class CardImageLoader
         Map<Card, Bitmap> cardImages = new HashMap<>();
         Bitmap playingCardsBmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.playing_cards);
 
-        Rank[] ranks = Rank.values();
         Suite[] suites = Suite.values();
-        for (int i = 0; i < ranks.length; ++i)
+        for (int i = 0; i < Deck.ALL_RANKS.length; ++i)
         {
             for (int j = 0; j < suites.length; ++j)
             {
@@ -89,7 +87,7 @@ public class CardImageLoader
                                                      IMAGE_WIDTH,
                                                      IMAGE_HEIGHT);
                 Bitmap scaledCardBmp = Bitmap.createScaledBitmap(cardBmp, IMAGE_SCALING * IMAGE_WIDTH, IMAGE_SCALING * IMAGE_HEIGHT, false);
-                cardImages.put(new Card(suites[j], ranks[i]), scaledCardBmp);
+                cardImages.put(new Card(suites[j], Deck.ALL_RANKS[i]), scaledCardBmp);
             }
         }
 

@@ -3,12 +3,22 @@ package com.blackjackquiz.app.solution;
 import android.content.Context;
 import android.database.Cursor;
 import com.blackjackquiz.app.deck.Deck.Card;
+import com.blackjackquiz.app.deck.Field.HandType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SolutionManual
 {
+    private static final Map<HandType, String> s_handToTable = new HashMap<>();
+
+    static
+    {
+        s_handToTable.put(HandType.Hard, "hard");
+        s_handToTable.put(HandType.Soft, "soft");
+        s_handToTable.put(HandType.Split, "split");
+    }
+
     private static volatile SolutionManual s_solutionManual;
 
     // See makedb/makedb.rb for the MOVES_MAP mapping values
@@ -29,21 +39,8 @@ public class SolutionManual
         private final int value;
     }
 
-    private enum HandType
-    {
-        Hard("hard"),
-        Soft("soft"),
-        Split("split");
-
-        HandType(String table)
-        {
-            this.table = table;
-        }
-
-        private final String table;
-    }
-
     private static Map<Integer, BlackJackAction> s_codeToActionMap = new HashMap<>();
+
     static
     {
         for (BlackJackAction action : BlackJackAction.values())
@@ -79,8 +76,9 @@ public class SolutionManual
             @Override
             public Cursor performQuery(Database.Transaction transaction)
             {
-                return transaction.query("SELECT action FROM " + handType.table + " WHERE dealer_card=? AND player_card_value=?",
-                                         new String[]{String.valueOf(dealerCard.rank.value),
+                return transaction.query("SELECT action FROM " + s_handToTable.get(handType) +
+                                                 " WHERE dealer_card=? AND player_card_value=?",
+                                         new String[]{String.valueOf(dealerCard.rank.getValue()),
                                                       String.valueOf(playerCardValue)});
             }
 
@@ -113,11 +111,11 @@ public class SolutionManual
     {
         if (handType == HandType.Split)
         {
-            return cardOne.rank.value;
+            return cardOne.rank.getValue();
         }
         else
         {
-            return cardOne.rank.value + cardTwo.rank.value;
+            return cardOne.rank.getValue() + cardTwo.rank.getValue();
         }
     }
 

@@ -1,13 +1,16 @@
 package com.blackjackquiz.app.deck;
 
-import java.util.Random;
-
 public class Deck
 {
     /*
      * The ordering of the Suites and Ranks is IMPORTANT!! It must match the ordering of the cards image. While the
      * ordering could be hard coded in the CardImageLoader, this is just easier.
      */
+    public static Rank[] ALL_RANKS = new Rank[]{SoftRank.Ace, HardRank.Two, HardRank.Three, HardRank.Four,
+                                                HardRank.Five, HardRank.Six, HardRank.Seven, HardRank.Eight,
+                                                HardRank.Nine, HardRank.Ten, HardRank.Jack, HardRank.Queen,
+                                                HardRank.King};
+
     public static enum Suite
     {
         Clubs,
@@ -16,9 +19,15 @@ public class Deck
         Diamonds
     }
 
-    public static enum Rank
+    public static interface Rank
     {
-        Ace(11),
+        public int getValue();
+
+        public boolean isAce();
+    }
+
+    public static enum HardRank implements Rank
+    {
         Two(2),
         Three(3),
         Four(4),
@@ -32,12 +41,48 @@ public class Deck
         Queen(10),
         King(10);
 
-        Rank(int value)
+        HardRank(int value)
         {
-            this.value = value;
+            m_value = value;
         }
 
-        public final int value;
+        @Override
+        public int getValue()
+        {
+            return m_value;
+        }
+
+        @Override
+        public boolean isAce()
+        {
+            return false;
+        }
+
+        private final int m_value;
+    }
+
+    public static enum SoftRank implements Rank
+    {
+        Ace(11);
+
+        SoftRank(int value)
+        {
+            m_value = value;
+        }
+
+        @Override
+        public int getValue()
+        {
+            return m_value;
+        }
+
+        @Override
+        public boolean isAce()
+        {
+            return true;
+        }
+
+        private final int m_value;
     }
 
     public static class Card
@@ -50,7 +95,7 @@ public class Deck
 
         public boolean isAce()
         {
-            return rank == Rank.Ace;
+            return rank.isAce();
         }
 
         @Override
@@ -82,18 +127,29 @@ public class Deck
         public final Rank  rank;
     }
 
-    private static final Random random          = new Random(System.currentTimeMillis());
-    private static final int    NUM_CARD_VALUES = Rank.values().length;
-    private static final int    NUM_SUITES      = Suite.values().length;
-
     private Deck()
     {
     }
 
     static Card getRandomCard()
     {
-        Suite suite = Suite.values()[random.nextInt(NUM_SUITES)];
-        Rank value = Rank.values()[random.nextInt(NUM_CARD_VALUES)];
-        return new Card(suite, value);
+        return getRandomCardOfRank(Randomizer.next(ALL_RANKS));
+    }
+
+    static Card getRandomHardCard()
+    {
+        HardRank hardRank = Randomizer.next(HardRank.values());
+        return getRandomCardOfRank(hardRank);
+    }
+
+    static Card getRandomSoftCard()
+    {
+        return getRandomCardOfRank(SoftRank.Ace);
+    }
+
+    static Card getRandomCardOfRank(Rank rank)
+    {
+        Suite suite = Randomizer.next(Suite.values());
+        return new Card(suite, rank);
     }
 }

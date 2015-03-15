@@ -99,7 +99,7 @@ public class BlackJackQuizFragment extends Fragment
 
     private void newField()
     {
-        m_field = Field.newField();
+        m_field = Field.newBiasedField();
         resetCardImages();
         resetButtonColors();
     }
