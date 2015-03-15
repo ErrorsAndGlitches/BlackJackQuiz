@@ -21,6 +21,9 @@ public class BlackJackQuizActivity extends Activity
 
         getFragmentManager().beginTransaction()
                 .add(R.id.container, m_blackJackQuizFragment)
+                .add(R.id.container, m_solutionTableFragment)
+                .hide(m_solutionTableFragment)
+                .show(m_blackJackQuizFragment)
                 .commit();
 
         // this is so the initialization code is kicked off
@@ -49,14 +52,14 @@ public class BlackJackQuizActivity extends Activity
         {
         case R.id.black_jack_quiz:
             getFragmentManager().beginTransaction()
+                    .hide(m_solutionTableFragment)
                     .show(m_blackJackQuizFragment)
-                    .remove(m_solutionTableFragment)
                     .commit();
             return true;
         case R.id.solution_table:
             getFragmentManager().beginTransaction()
                     .hide(m_blackJackQuizFragment)
-                    .add(R.id.container, m_solutionTableFragment)
+                    .show(m_solutionTableFragment)
                     .commit();
             return true;
         }
