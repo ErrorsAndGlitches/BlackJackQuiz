@@ -32,7 +32,6 @@ public class SolutionManual
 
         BlackJackAction(int value)
         {
-
             this.value = value;
         }
 

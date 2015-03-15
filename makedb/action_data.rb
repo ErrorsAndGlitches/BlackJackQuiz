@@ -35,7 +35,7 @@ module ActionData
                     .multi_map(17      , [:hit, :dbl, :dbl, :dbl, :dbl, :hit, :hit, :hit, :hit, :hit, :hit, :hit, :hit])
                     .multi_map(18      , [:dbl, :dbl, :dbl, :dbl, :dbl, :std, :std, :hit, :hit, :hit, :hit, :hit, :hit])
                     .multi_map(19      , [:std, :std, :std, :std, :dbl, :std, :std, :std, :std, :std, :std, :std, :std])
-                    .multi_map(21      , [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std])
+                    .multi_map((20..21), [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std])
                     .map
 
     SPLIT_DATA = MapBuilder.new(Hash.new({}))

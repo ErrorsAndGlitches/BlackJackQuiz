@@ -158,7 +158,7 @@ public class BlackJackQuizFragment extends Fragment
         }
 
         private final Button button;
-        private final int defaultColor;
+        private final int    defaultColor;
     }
 
     private ImageView m_dealerCardImage;
