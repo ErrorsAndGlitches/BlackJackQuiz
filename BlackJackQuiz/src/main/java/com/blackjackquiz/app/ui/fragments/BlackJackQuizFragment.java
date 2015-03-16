@@ -1,8 +1,7 @@
-package com.blackjackquiz.app.ui;
+package com.blackjackquiz.app.ui.fragments;
 
-import android.app.Fragment;
 import android.graphics.Color;
-import android.os.*;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import com.blackjackquiz.app.solution.SolutionManual.BlackJackAction;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BlackJackQuizFragment extends Fragment
+public class BlackJackQuizFragment extends KeyEventFragment
 {
     private static final int CORRECT_ANSWER_COLOR = Color.GREEN;
     private static final int WRONG_ANSWER_COLOR   = Color.RED;
@@ -45,19 +44,26 @@ public class BlackJackQuizFragment extends Fragment
         return rootView;
     }
 
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        newField();
+    }
+
+    protected void newField()
+    {
+        m_field = Field.newBiasedField();
+        resetCardImages();
+        resetButtonColors();
+    }
+
     private void setupActionButtonClickListeners()
     {
         for (ActionButton actionButton : m_actionToButtons.values())
         {
             actionButton.button.setOnClickListener(m_actionButtonClickListener);
         }
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        newField();
     }
 
     private void findCardImages(View rootView)
@@ -95,13 +101,6 @@ public class BlackJackQuizFragment extends Fragment
                 newField();
             }
         });
-    }
-
-    private void newField()
-    {
-        m_field = Field.newBiasedField();
-        resetCardImages();
-        resetButtonColors();
     }
 
     private void resetCardImages()
@@ -149,7 +148,7 @@ public class BlackJackQuizFragment extends Fragment
         }
     }
 
-    private static class ActionButton
+    protected static class ActionButton
     {
         private ActionButton(Button button, int defaultColor)
         {
@@ -157,8 +156,8 @@ public class BlackJackQuizFragment extends Fragment
             this.defaultColor = defaultColor;
         }
 
-        private final Button button;
-        private final int    defaultColor;
+        protected final Button button;
+        protected final int    defaultColor;
     }
 
     private ImageView m_dealerCardImage;
@@ -173,7 +172,6 @@ public class BlackJackQuizFragment extends Fragment
 
     private Field m_field;
 
-    private final Map<BlackJackAction, ActionButton> m_actionToButtons;
-    private final View.OnClickListener               m_actionButtonClickListener;
+    private final   View.OnClickListener               m_actionButtonClickListener;
+    protected final Map<BlackJackAction, ActionButton> m_actionToButtons;
 }
-

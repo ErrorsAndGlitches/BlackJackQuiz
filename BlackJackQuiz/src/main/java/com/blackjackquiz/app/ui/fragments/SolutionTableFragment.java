@@ -1,6 +1,5 @@
-package com.blackjackquiz.app.ui;
+package com.blackjackquiz.app.ui.fragments;
 
-import android.app.Fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class SolutionTableFragment extends Fragment
+public class SolutionTableFragment extends KeyEventFragment
 {
     public SolutionTableFragment()
     {
