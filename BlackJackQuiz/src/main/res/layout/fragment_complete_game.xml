@@ -9,19 +9,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BlackJackQuizActivity$PlaceholderFragment">
 
+
     <ImageView
         android:id="@+id/dealer_card_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1" />
+
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="20dp"
+        android:layout_weight="1" />
+
+
+    <LinearLayout
+        android:id="@+id/players_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -113,11 +129,32 @@
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
-    <Button
-        android:id="@+id/next_field_button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Next Field"
-        android:textSize="50sp" />
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/next_field_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Next Field"
+            android:textSize="30sp" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/count_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Count"
+            android:textSize="30sp" />
+
+    </LinearLayout>
 
 </LinearLayout>

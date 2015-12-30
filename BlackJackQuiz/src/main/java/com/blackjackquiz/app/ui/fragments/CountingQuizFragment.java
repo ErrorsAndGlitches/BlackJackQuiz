@@ -1,7 +1,9 @@
 package com.blackjackquiz.app.ui.fragments;
 
+import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,46 +14,47 @@ import com.blackjackquiz.app.R;
 import com.blackjackquiz.app.deck.CardImageLoader;
 import com.blackjackquiz.app.deck.Field;
 import com.blackjackquiz.app.solution.SolutionManual;
-import com.blackjackquiz.app.solution.SolutionManual.BlackJackAction;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BlackJackQuizFragment extends KeyEventFragment {
+public class CountingQuizFragment extends KeyEventFragment {
+    protected static final String TAG = CountingQuizFragment.class.getSimpleName();
     private static final int CORRECT_ANSWER_COLOR = Color.GREEN;
     private static final int WRONG_ANSWER_COLOR = Color.RED;
     private static final int UNUSED_ANSWER_COLOR = Color.GRAY;
 
-    public BlackJackQuizFragment() {
+    public CountingQuizFragment() {
         m_actionToButtons = new HashMap<>();
         m_actionButtonClickListener = new ActionButtonOnClickListener();
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_black_jack_quiz, container, false);
-
+        View rootView = inflater.inflate(R.layout.fragment_counting_quiz, container, false);
         findCardImages(rootView);
         findActionButtons(rootView);
         addButtonsToActionMap();
         setupActionButtonClickListeners();
 
         Button nextFieldButton = (Button) rootView.findViewById(R.id.next_field_button);
+        Button getCountButton = (Button) rootView.findViewById(R.id.count_button);
         setupNextFieldButton(nextFieldButton);
+        setupGetCountButton(getCountButton);
+        s_count = 0;
+        newField();
 
         return rootView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        newField();
-    }
-
-    protected void newField() {
-        m_field = Field.newBiasedField();
+    public void newField() {
+        m_field = Field.newUnbiasedField();
         resetCardImages();
         resetButtonColors();
+        s_count += m_field.count;
+        Log.d(TAG, "Count " + s_count);
+        Log.d(TAG, "Current field count " + m_field.count);
     }
 
     private void setupActionButtonClickListeners() {
@@ -75,11 +78,11 @@ public class BlackJackQuizFragment extends KeyEventFragment {
     }
 
     private void addButtonsToActionMap() {
-        m_actionToButtons.put(BlackJackAction.Hit, new ActionButton(m_hitButton, Color.RED));
-        m_actionToButtons.put(BlackJackAction.Double, new ActionButton(m_dblButton, Color.LTGRAY));
-        m_actionToButtons.put(BlackJackAction.Stand, new ActionButton(m_stdButton, Color.YELLOW));
-        m_actionToButtons.put(BlackJackAction.Split, new ActionButton(m_splButton, Color.GREEN));
-        m_actionToButtons.put(BlackJackAction.DoubleAfterSplit, new ActionButton(m_dasButton, Color.CYAN));
+        m_actionToButtons.put(SolutionManual.BlackJackAction.Hit, new ActionButton(m_hitButton, Color.RED));
+        m_actionToButtons.put(SolutionManual.BlackJackAction.Double, new ActionButton(m_dblButton, Color.LTGRAY));
+        m_actionToButtons.put(SolutionManual.BlackJackAction.Stand, new ActionButton(m_stdButton, Color.YELLOW));
+        m_actionToButtons.put(SolutionManual.BlackJackAction.Split, new ActionButton(m_splButton, Color.GREEN));
+        m_actionToButtons.put(SolutionManual.BlackJackAction.DoubleAfterSplit, new ActionButton(m_dasButton, Color.CYAN));
     }
 
     private void setupNextFieldButton(Button nextCardButton) {
@@ -89,6 +92,33 @@ public class BlackJackQuizFragment extends KeyEventFragment {
                 newField();
             }
         });
+    }
+
+    private void setupGetCountButton(Button getCountButton) {
+        getCountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCountFragment();
+            }
+        });
+    }
+
+    private void openCountFragment() {
+        Fragment countDialogFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countDialogFragment));
+        Fragment countingQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
+        Fragment solutionTableFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_solutionTableFragment));
+        Fragment blackJackQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_blackJackQuizFragment));
+        Fragment completeGameFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_completeGameFragment));
+        Fragment responseGameFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_responseGameFragment));
+        countDialogFragment.onStart();
+        getFragmentManager().beginTransaction()
+                .hide(countingQuizFragment)
+                .hide(solutionTableFragment)
+                .hide(blackJackQuizFragment)
+                .show(countDialogFragment)
+                .hide(completeGameFragment)
+                .hide(responseGameFragment)
+                .commit();
     }
 
     private void resetCardImages() {
@@ -108,7 +138,7 @@ public class BlackJackQuizFragment extends KeyEventFragment {
         @Override
         public void onClick(View v) {
             SolutionManual solMan = SolutionManual.getInstance(getActivity());
-            BlackJackAction action = solMan.getSolutionForCards(m_field.dealerCard,
+            SolutionManual.BlackJackAction action = solMan.getSolutionForCards(m_field.dealerCard,
                     m_field.playerCardOne,
                     m_field.playerCardTwo);
             ActionButton solutionButton = m_actionToButtons.get(action);
@@ -149,7 +179,8 @@ public class BlackJackQuizFragment extends KeyEventFragment {
     private Button m_dasButton;
 
     private Field m_field;
+    protected static int s_count;
 
     private final View.OnClickListener m_actionButtonClickListener;
-    protected final Map<BlackJackAction, ActionButton> m_actionToButtons;
+    protected final Map<SolutionManual.BlackJackAction, ActionButton> m_actionToButtons;
 }
